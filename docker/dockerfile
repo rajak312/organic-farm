@@ -1,0 +1,36 @@
+FROM node:24.3.0-alpine AS builder
+
+WORKDIR /temp
+
+RUN npm install -g pnpm
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
+
+COPY . .
+
+RUN rm -rf dist
+RUN pnpm generate
+RUN pnpm build
+
+FROM node:24.3.0-alpine
+
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+COPY --from=builder /temp/package.json ./
+COPY --from=builder /temp/pnpm-lock.yaml ./
+COPY --from=builder /temp/node_modules ./node_modules
+COPY --from=builder /temp/dist ./dist
+
+ENV PORT=3000 \
+    DATABASE_URL="mongodb://root:root@localhost:27018/organic_store?authSource=admin"
+
+EXPOSE 3000
+
+CMD ["node", "dist/index.js"]
