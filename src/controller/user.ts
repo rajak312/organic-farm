@@ -1,13 +1,17 @@
 import { RequestHandler } from "express";
 import prisma from "@config/prisma.js";
+import bcrypt from "bcrypt";
 
 export const createUser: RequestHandler = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, phoneNumber } = req.body;
+  const round = 10;
+  const hashedPassword = await bcrypt.hash(password, round);
   const user = await prisma.user.create({
     data: {
       name,
       email,
-      password,
+      password: hashedPassword,
+      phoneNumber,
     },
   });
   res.status(201).json(user);

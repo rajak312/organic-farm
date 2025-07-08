@@ -14,13 +14,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String   @unique
+  password    String
+  role        Role     @default(USER)
+  phoneNumber Int?     @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 
   orders       Order[]
   transactions Transaction[]
@@ -108,7 +109,7 @@ model Transaction {
 enum Role {
   ADMIN
   FARMER
-  CUSTOMER
+  USER
 }
 
 enum OrderStatus {
