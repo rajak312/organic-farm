@@ -1,4 +1,4 @@
-import { sign, SignOptions, verify } from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 import { config } from "dotenv";
 
 config();
@@ -11,17 +11,17 @@ const REFRESH_TOKEN_EXPIRY = (process.env.REFRESH_TOKEN_EXPIRY ||
   "7d") as SignOptions["expiresIn"];
 
 export const generateAccessToken = (userId: string) =>
-  sign({ userId }, ACCESS_TOKEN_SECRET, {
+  jwt.sign({ userId }, ACCESS_TOKEN_SECRET, {
     expiresIn: ACCESS_TOKEN_EXPIRY,
   });
 
 export const generateRefreshToken = (userId: string) =>
-  sign({ userId }, REFRESH_TOKEN_SECRET, {
+  jwt.sign({ userId }, REFRESH_TOKEN_SECRET, {
     expiresIn: REFRESH_TOKEN_EXPIRY,
   });
 
 export const verifyAccessToken = (token: string) =>
-  verify(token, ACCESS_TOKEN_SECRET);
+  jwt.verify(token, ACCESS_TOKEN_SECRET);
 
 export const verifyRefreshToken = (token: string) =>
-  verify(token, REFRESH_TOKEN_SECRET);
+  jwt.verify(token, REFRESH_TOKEN_SECRET);
