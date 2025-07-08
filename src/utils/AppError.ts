@@ -1,12 +1,17 @@
+import { ErrorType } from "./assert.js";
+
 export class AppError extends Error {
   statusCode: number;
-  isOperational: boolean;
+  type: ErrorType;
 
-  constructor(message: string, statusCode: number) {
+  constructor(
+    message: string,
+    statusCode: number = 500,
+    type: ErrorType = "UNKNOWN"
+  ) {
     super(message);
     this.statusCode = statusCode;
-    this.isOperational = true;
-
+    this.type = type;
     Error.captureStackTrace(this, this.constructor);
   }
 }

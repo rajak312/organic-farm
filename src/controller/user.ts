@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import prisma from "@config/prisma.js";
 import bcrypt from "bcrypt";
 
-export const createUser: RequestHandler = async (req, res) => {
+export const registerUser: RequestHandler = async (req, res) => {
   const { name, email, password, phoneNumber } = req.body;
   const round = 10;
   const hashedPassword = await bcrypt.hash(password, round);
