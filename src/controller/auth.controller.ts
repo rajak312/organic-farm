@@ -58,10 +58,6 @@ export const loginUser: RequestHandler = async (req, res) => {
   assert(user, 401, "User not found", "AUTH");
   const isMatch = await bcrypt.compare(password, user.password);
   assert(isMatch, 401, "Invalid credentials", "AUTH");
-  res.status(200).json({
-    message: "Login successful",
-    user: getSafeUser(user),
-  });
   const accessToken = generateAccessToken(user.id);
   const refreshToken = generateRefreshToken(user.id);
   res

@@ -4,7 +4,11 @@ export const registerUserSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  phoneNumber: z.number().min(10).max(15),
+  phoneNumber: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .max(15, "Phone number must be at most 15 digits")
+    .regex(/^\d+$/, "Phone number must contain only digits"),
 });
 
 export const loginUserSchema = z

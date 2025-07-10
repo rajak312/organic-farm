@@ -2,7 +2,7 @@ import { createServer } from "http";
 import { config } from "dotenv";
 import express from "express";
 import { healthCheckHandler } from "@routes/health.js";
-import userRoutes from "@routes/user.js";
+import userRoutes from "@routes/user.route.js";
 import authRoutes from "@routes/auth.route.js";
 import { errorHandler } from "@middlewares/error.middleware.js";
 
