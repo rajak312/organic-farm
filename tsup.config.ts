@@ -10,4 +10,5 @@ export default defineConfig({
   splitting: false,
   watch: true,
   shims: false,
+  external: ["pino", "pino-pretty", "pino-http", "os"],
 });
